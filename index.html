@@ -1,92 +1,423 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CricketAdda | Cricket News & Updates</title>
-<meta name="description" content="CricketAdda - cricket news, tournaments, teams, players and points tables.">
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
-header{background:#071b3a;color:white;padding:18px 6%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
-.logo{font-size:28px;font-weight:800}.logo span{color:#38d39f}
-nav a{color:white;text-decoration:none;margin-left:20px;font-size:14px}
-.hero{padding:70px 6%;background:linear-gradient(135deg,#071b3a,#123f78);color:white}
-.hero h1{font-size:46px;margin:0 0 12px}.hero p{font-size:18px;max-width:650px}
-.btn{display:inline-block;background:#38d39f;color:#071b3a;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:700}
-section{padding:42px 6%}.title{font-size:30px;margin-bottom:22px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.card{background:white;padding:22px;border-radius:14px;box-shadow:0 5px 20px #00000010}
-.card h3{margin-top:0}.tag{display:inline-block;background:#e8f8f2;color:#087a58;padding:5px 9px;border-radius:20px;font-size:12px;font-weight:bold}
-.ad{border:2px dashed #b7c0ce;background:white;text-align:center;padding:28px;border-radius:12px;color:#697386}
-table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden}
-th,td{padding:13px;text-align:left;border-bottom:1px solid #eee}th{background:#071b3a;color:white}
-footer{background:#071b3a;color:#cbd5e1;padding:28px 6%;text-align:center}
-@media(max-width:700px){header{display:block}nav{margin-top:12px}nav a{margin:0 12px 0 0}.hero h1{font-size:36px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CricketAdda - Live Cricket Scores, News & Updates</title>
+    <style>
+        :root {
+            --primary-color: #009270;
+            --primary-dark: #007257;
+            --bg-color: #f8f9fa;
+            --text-main: #222222;
+            --text-secondary: #666666;
+            --border-color: #e0e0e0;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 70px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .brand-name {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .get-app-btn {
+            background-color: var(--white);
+            color: var(--primary-color);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Sub Navigation / Filters */
+        .sub-nav {
+            background-color: var(--primary-dark);
+            display: flex;
+            overflow-x: auto;
+            padding: 0 12px;
+            white-space: nowrap;
+            scrollbar-width: none;
+        }
+
+        .sub-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-item {
+            color: var(--white);
+            padding: 10px 14px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-item.active {
+            border-bottom-color: var(--white);
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 12px;
+        }
+
+        /* Featured News Card */
+        .news-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .news-img-container {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            background-color: #ddd;
+        }
+
+        .news-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: var(--white);
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .news-content {
+            padding: 16px;
+        }
+
+        .news-title {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.4;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .news-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .news-meta {
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Quick Links List Style */
+        .story-list {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+
+        .story-item {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .story-item:last-child {
+            border-bottom: none;
+        }
+
+        .story-item h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+
+        .story-item p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Bottom Navigation Bar for Mobile */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .bottom-nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .bottom-nav-item span.icon {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        /* Modal Full Reader */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 800px;
+            height: 85vh;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding: 20px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 15px 0;
+            color: var(--text-main);
+        }
+
+        .modal-body {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+    </style>
 </head>
 <body>
-<header>
-  <div class="logo">Cricket<span>Adda</span></div>
-  <nav>
-    <a href="#news">News</a><a href="#tournaments">Tournaments</a><a href="#teams">Teams</a><a href="#players">Players</a>
-  </nav>
-</header>
 
-<div class="hero">
-  <h1>Cricket, Your Way.</h1>
-  <p>Latest cricket news, tournament updates, team information, player profiles and points tables — all in one place.</p>
-  <a class="btn" href="#news">Explore Cricket</a>
-</div>
+    <!-- Header -->
+    <header>
+        <div class="header-top">
+            <div class="logo-area">
+                <button class="menu-btn">☰</button>
+                <div class="brand-name">CricketAdda</div>
+            </div>
+            <div class="header-actions">
+                <button class="get-app-btn">GET APP</button>
+            </div>
+        </div>
+        <div class="sub-nav">
+            <a class="nav-item active">Home</a>
+            <a class="nav-item">News</a>
+            <a class="nav-item">Series</a>
+            <a class="nav-item">Teams</a>
+            <a class="nav-item">Rankings</a>
+            <a class="nav-item">Videos</a>
+        </div>
+    </header>
 
-<section>
-  <div class="ad">ADVERTISEMENT SPACE</div>
-</section>
+    <!-- Main Content Area -->
+    <div class="container">
 
-<section id="news">
-  <div class="title">Latest Cricket News</div>
-  <div class="grid">
-    <div class="card"><span class="tag">NEWS</span><h3>Latest Cricket Updates</h3><p>Replace this with your original cricket article and updates.</p></div>
-    <div class="card"><span class="tag">TOURNAMENT</span><h3>Tournament Highlights</h3><p>Add tournament stories, results and important updates here.</p></div>
-    <div class="card"><span class="tag">FEATURE</span><h3>Player Spotlight</h3><p>Share interesting facts and profiles about cricket players.</p></div>
-  </div>
-</section>
+        <!-- Featured News 1 -->
+        <div class="news-card" onclick="openArticle('Harmanpreet\'s leadership legacy is bigger than the trophy she won', 'She was never the perfect captain, but her greatest contribution may have been making India believe that the world\'s best could, and should, be challenged. Her journey through ups and downs redefined women\'s cricket in India, inspiring millions of young girls across the nation to pick up the bat.')">
+            <div class="news-img-container">
+                <span class="news-tag">IPL 2026 / Feature</span>
+                <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80" alt="Cricket Match">
+            </div>
+            <div class="news-content">
+                <h2 class="news-title">Harmanpreet's leadership legacy is bigger than the trophy she won</h2>
+                <p class="news-desc">She was never the perfect captain, but her greatest contribution may have been making India believe that the world's best could, and should, be challenged.</p>
+                <div class="news-meta">
+                    <span>2 hours ago</span>
+                    <span>10 min read</span>
+                </div>
+            </div>
+        </div>
 
-<section id="tournaments">
-  <div class="title">Tournaments</div>
-  <div class="grid">
-    <div class="card"><h3>IPL</h3><p>Teams, fixtures, standings and tournament information.</p></div>
-    <div class="card"><h3>International Cricket</h3><p>World Cups, bilateral series and major events.</p></div>
-    <div class="card"><h3>Local Cricket</h3><p>Promote local teams and tournaments from your area.</p></div>
-  </div>
-</section>
+        <!-- Story List Item Style -->
+        <div class="story-list">
+            <div class="story-item" onclick="openArticle('Captaincy ends, journey continues - Harmanpreet Kaur', 'Reflecting on her tenure, Harmanpreet stated that stepping down from the captaincy opens new doors for her to focus purely on her power-hitting and match-winning capabilities on the field.')">
+                <h4>'Captaincy ends, journey continues' - Harmanpreet Kaur</h4>
+                <p>Reflecting on her illustrious leadership journey and the road ahead...</p>
+            </div>
+            <div class="story-item" onclick="openArticle('Smriti Mandhana named India\'s new captain', 'In a landmark decision following the recent BCCI review meeting, explosive opening batter Smriti Mandhana has been officially handed over the captaincy reigns across formats.')">
+                <h4>Smriti Mandhana named India's new captain</h4>
+                <p>The star opener takes charge as India plans a fresh tactical blueprint for upcoming global tournaments.</p>
+            </div>
+            <div class="story-item" onclick="openArticle('Bhuvaneshwar Kumar\'s age-defying IPL season', 'Through relentless discipline, strength training and technical tweaks, Bhuvaneshwar Kumar has engineered one of the IPL\'s most remarkable bowling revivals.')">
+                <h4>Bigger lifts, leaner frame: The story behind Bhuvneshwar Kumar</h4>
+                <p>How the veteran swing bowler reinvented his fitness and variations to dominate top-order batters.</p>
+            </div>
+        </div>
 
-<section id="teams">
-  <div class="title">Teams</div>
-  <div class="grid">
-    <div class="card"><h3>Team Profiles</h3><p>Add team logo, squad and achievements.</p></div>
-    <div class="card"><h3>Team Updates</h3><p>Post team news and tournament updates.</p></div>
-  </div>
-</section>
+        <!-- Featured News 2 -->
+        <div class="news-card" onclick="openArticle('How Virat Kohli changed Indian Test Cricket', 'From shifting the team\'s aggressive mindset overseas to building a fearsome fast-bowling unit, Virat Kohli\'s captaincy era laid the foundation for India to become a dominant force in red-ball cricket globally.')">
+            <div class="news-img-container">
+                <span class="news-tag">Test Cricket / Analysis</span>
+                <img src="https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=800&q=80" alt="Virat Kohli Test Cricket">
+            </div>
+            <div class="news-content">
+                <h2 class="news-title">7th to World No. 1! How Kohli changed Indian Test cricket</h2>
+                <p class="news-desc">From shifting the team's aggressive mindset overseas to building a fearsome fast-bowling unit, see how the transformation took place.</p>
+                <div class="news-meta">
+                    <span>5 hours ago</span>
+                    <span>6 min read</span>
+                </div>
+            </div>
+        </div>
 
-<section id="players">
-  <div class="title">Points Table</div>
-  <table>
-    <tr><th>Team</th><th>Played</th><th>Won</th><th>Points</th></tr>
-    <tr><td>Team A</td><td>0</td><td>0</td><td>0</td></tr>
-    <tr><td>Team B</td><td>0</td><td>0</td><td>0</td></tr>
-    <tr><td>Team C</td><td>0</td><td>0</td><td>0</td></tr>
-  </table>
-</section>
+    </div>
 
-<section>
-  <div class="title">Advertisement</div>
-  <div class="ad">Your Google AdSense / Sponsor Ad will appear here after approval.</div>
-</section>
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="#" class="bottom-nav-item active">
+            <span class="icon">🏠</span>
+            Home
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <span class="icon">🏏</span>
+            Matches
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <span class="icon">🏆</span>
+            Series
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <span class="icon">▶️</span>
+            Videos
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <span class="icon">📰</span>
+            News
+        </a>
+    </nav>
 
-<footer>
-  <strong>CricketAdda</strong><br>
-  Cricket News • Tournaments • Teams • Players<br><br>
-  © 2026 CricketAdda. All rights reserved.
-</footer>
+    <!-- Article Reader Modal -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeArticle()">&times;</span>
+            <h2 id="modalTitle" class="modal-title"></h2>
+            <div id="modalBody" class="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        function openArticle(title, content) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBody').innerText = content;
+            document.getElementById('articleModal').style.display = 'flex';
+        }
+
+        function closeArticle() {
+            document.getElementById('articleModal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
