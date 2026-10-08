@@ -354,26 +354,4 @@
         function closeArticle() {
             document.getElementById('articleModal').style.display = 'none';
         }
-    </script>
-</body>
-</html>
-<script>
-  // તમારી API Key જે તમે આપી હતી તે અહીં છે
-  const apiKey = '6c784817-838d-4553-bef4-22c0c02c38df'; 
-  const url = `https://api.cricapi.com/v1/currentMatches?apikey=${apiKey}&offset=0`;
-
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      if(data.data && data.data.length > 0) {
-        const matchName = data.data[0].name;
-        document.getElementById('match-box').innerText = "લાઈવ મેચ: " + matchName;
-      } else {
-        document.getElementById('match-box').innerText = 'હાલમાં કોઈ લાઈવ મેચ ઉપલબ્ધ નથી.';
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      document.getElementById('match-box').innerText = 'ડેટા લોડ કરવામાં કોઈ ભૂલ થઈ છે.';
-    });
-</script>
+ >
